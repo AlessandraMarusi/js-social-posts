@@ -59,8 +59,6 @@ const posts = [
 const container = document.getElementById("container")
 posts.forEach(printPosts)
 
-
-
 function printPosts (element, index, array) {
     const post = document.createElement("div");
     post.className = 'post'
@@ -82,15 +80,40 @@ function printPosts (element, index, array) {
                     <div class="post__footer">
                         <div class="likes js-likes">
                             <div class="likes__cta">
-                                <a class="like-button  js-like-button" href="#" data-postid="1">
+                                <a class="like-button  js-like-button" href="javascript:;" data-postid="${element.id}">
                                     <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
                                     <span class="like-button__label">Mi Piace</span>
                                 </a>
                             </div>
                             <div class="likes__counter">
-                                Piace a <b id="like-counter-1" class="js-likes-counter">${element.likes}</b> persone
+                                Piace a <b id="like-counter-${element.id}" class="js-likes-counter">${element.likes}</b> persone
                             </div>
                         </div> 
                     </div>`
 container.append(post)
 }
+
+let likedPost = [];
+let likeCheck = 0;
+function setLike () {
+    const postId = this.dataset.postid
+    console.log(postId)
+    let likeValue = document.getElementById(`like-counter-${postId}`).innerHTML
+    console.log(likeValue)
+    if (!likedPost.includes(posts[postId - 1])) {
+        this.style.color = "red";
+        likeValue++
+        likedPost.push(posts[postId - 1])
+        console.log(likedPost)
+    }
+    else {
+        this.style.color = "black";
+        likeValue--
+        let remove = likedPost.splice(postId - 1, 1);
+        likedPost = remove
+    }
+    document.getElementById(`like-counter-${postId}`).innerHTML = likeValue
+}
+document.querySelectorAll(".js-like-button").forEach(element => {
+    element.addEventListener('click', setLike)
+})
