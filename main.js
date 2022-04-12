@@ -55,11 +55,26 @@ const posts = [
         created: "2021-03-05"
     }
 ];
+let dateArray = []
+posts.forEach(swapFormat) //Funzione che scambia il formato americano con quello italiano
+
+function swapFormat (element, index) { 
+    console.log(index)
+    let date = posts[index].created
+    dateArray = date.split("-");
+    changeDateFormat() //funzione che scambia l'anno col giorno all'interno delle date
+    posts[index].created = dateArray.join('-')
+}
+function changeDateFormat (index) {
+    let number = dateArray[0];
+    dateArray[0] = dateArray[2];
+    dateArray[2] = number;
+}
 
 const container = document.getElementById("container")
 posts.forEach(printPosts)
-
-function printPosts (element, index, array) {
+// Funzione che stampa il post
+function printPosts (element) {
     const post = document.createElement("div");
     post.className = 'post'
     post.innerHTML = `<div class="post__header">
@@ -93,9 +108,9 @@ function printPosts (element, index, array) {
 container.append(post)
 }
 
-let likedPost = [];
-let likeCheck = 0;
-function setLike () {
+let likedPost = []; // Array dei post con il like
+// funzione che gestisce il contatore dei like e l'inserimento nell'array
+function setLike () { 
     const postId = this.dataset.postid
     console.log(postId)
     let likeValue = document.getElementById(`like-counter-${postId}`).innerHTML
@@ -104,7 +119,6 @@ function setLike () {
         this.style.color = "red";
         likeValue++
         likedPost.push(posts[postId - 1])
-        console.log(likedPost)
     }
     else {
         this.style.color = "black";
@@ -114,6 +128,7 @@ function setLike () {
     }
     document.getElementById(`like-counter-${postId}`).innerHTML = likeValue
 }
+//Aggiunta dell'evento on click ai bottoni js-like
 document.querySelectorAll(".js-like-button").forEach(element => {
     element.addEventListener('click', setLike)
 })
