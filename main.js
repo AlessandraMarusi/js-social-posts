@@ -55,32 +55,48 @@ const posts = [
         created: "2021-03-05"
     }
 ];
+
 let dateArray = []
 posts.forEach(swapFormat) //Funzione che scambia il formato americano con quello italiano
 
 function swapFormat (element, index) { 
-    console.log(index)
     let date = posts[index].created
     dateArray = date.split("-");
     changeDateFormat() //funzione che scambia l'anno col giorno all'interno delle date
     posts[index].created = dateArray.join('-')
 }
-function changeDateFormat (index) {
+function changeDateFormat (index) { 
     let number = dateArray[0];
     dateArray[0] = dateArray[2];
     dateArray[2] = number;
 }
 
+let inizialiArray = []
+posts.forEach(getInitials)
+
+function getInitials (element, index) { 
+    let nomi = posts[index].author.name.split(' ')
+    let iniziali = nomi[0].substring(0, 1).toUpperCase();
+
+    if(nomi.length > 1) {
+    iniziali += nomi[nomi.length - 1].substring(0, 1).toUpperCase();
+    }
+    console.log(iniziali)
+    inizialiArray.push(iniziali)
+}
+console.log(inizialiArray)
+
+
 const container = document.getElementById("container")
 posts.forEach(printPosts)
 // Funzione che stampa il post
-function printPosts (element) {
+function printPosts (element, index) {
     const post = document.createElement("div");
     post.className = 'post'
     post.innerHTML = `<div class="post__header">
                         <div class="post-meta">                    
                             <div class="post-meta__icon">
-                                <img class="profile-pic" src="${element.author.image}" alt="${element.author.name}">                    
+                                <img class="profile-pic" src="${element.author.image}" alt="${inizialiArray[index]}">                    
                             </div>
                             <div class="post-meta__data">
                                 <div class="post-meta__author">${element.author.name}</div>
