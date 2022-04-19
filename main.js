@@ -57,14 +57,15 @@ const posts = [
 ];
 
 let dateArray = []
-posts.forEach(swapFormat) //Funzione che scambia il formato americano con quello italiano
-
+posts.forEach(swapFormat) 
+//Funzione che scambia il formato americano con quello italiano
 function swapFormat (element, index) { 
     let date = posts[index].created
     dateArray = date.split("-");
-    changeDateFormat() //funzione che scambia l'anno col giorno all'interno delle date
+    changeDateFormat() 
     posts[index].created = dateArray.join('-')
 }
+//funzione che scambia l'anno col giorno all'interno delle date
 function changeDateFormat (index) { 
     let number = dateArray[0];
     dateArray[0] = dateArray[2];
@@ -130,9 +131,9 @@ let likedPost = []; // Array dei post con il like
 // funzione che gestisce il contatore dei like e l'inserimento nell'array
 function setLike () { 
     const postId = this.dataset.postid
-    console.log(postId)
+    //console.log(postId)
     let likeValue = document.getElementById(`like-counter-${postId}`).innerHTML
-    console.log(likeValue)
+    //console.log(likeValue)
     if (!likedPost.includes(posts[postId - 1])) {
         this.style.color = "red";
         likeValue++
@@ -141,8 +142,11 @@ function setLike () {
     else {
         this.style.color = "black";
         likeValue--
-        let remove = likedPost.splice(postId - 1, 1);
-        likedPost = remove
+        let idx = likedPost.indexOf(posts[postId - 1])
+        console.log(idx)
+        likedPost.splice(idx, 1);
+        /* likedPost = remove */
+        console.log(likedPost)
     }
     document.getElementById(`like-counter-${postId}`).innerHTML = likeValue
 }
