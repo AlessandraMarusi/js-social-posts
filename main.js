@@ -73,7 +73,7 @@ function changeDateFormat (index) {
 
 let inizialiArray = []
 posts.forEach(getInitials)
-
+// Funzione che prende le iniziali e le inserisce in un array
 function getInitials (element, index) { 
     let nomi = posts[index].author.name.split(' ')
     let iniziali = nomi[0].substring(0, 1).toUpperCase();
@@ -96,7 +96,9 @@ function printPosts (element, index) {
     post.innerHTML = `<div class="post__header">
                         <div class="post-meta">                    
                             <div class="post-meta__icon">
-                                <img class="profile-pic" src="${element.author.image}" alt="${inizialiArray[index]}">                    
+                                ${element.author.image ? 
+                                `<img class="profile-pic" src="${element.author.image}" alt="${inizialiArray[index]}">` : `<div class="profile-pic-default"><span>${inizialiArray[index]}</span></div>`  
+                                }                 
                             </div>
                             <div class="post-meta__data">
                                 <div class="post-meta__author">${element.author.name}</div>
